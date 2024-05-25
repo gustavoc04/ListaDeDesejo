@@ -1,13 +1,39 @@
-// startScreen.js
-import React from 'react';
-import { View, Text, Button, TextInput, StyleSheet, SafeAreaView} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Pressable, StyleSheet, SafeAreaView } from 'react-native';
 
 export default function StartScreen({ navigation }) {
+  const [loginButtonPressed, setLoginButtonPressed] = useState(false);
+  const [signupButtonPressed, setSignupButtonPressed] = useState(false);
+
   return (
     <SafeAreaView style={styles.safeArea}>
-      <Text>Start Screen</Text>
-      <Button title="Sign Up" onPress={() => navigation.navigate('SignUp')} />
-      <Button title="Login" onPress={() => navigation.navigate('Login')} />
+      <View style={styles.contentContainer}>
+        <Text style={styles.title}>Lista de Desejos</Text>
+        <View style={styles.buttonContainer}>
+          <Pressable
+            style={({ pressed }) => [
+              styles.buttonLogin,
+              { backgroundColor: pressed ? '#0056b3' : '#007BFF' },
+            ]}
+            onPressIn={() => setLoginButtonPressed(true)}
+            onPressOut={() => setLoginButtonPressed(false)}
+            onPress={() => navigation.navigate('Login')}
+          >
+            <Text style={styles.buttonLoginText}>Login</Text>
+          </Pressable>
+          <Pressable
+            style={({ pressed }) => [
+              styles.buttonSignup,
+              { backgroundColor: pressed ? '#e6f0ff' : 'transparent' },
+            ]}
+            onPressIn={() => setSignupButtonPressed(true)}
+            onPressOut={() => setSignupButtonPressed(false)}
+            onPress={() => navigation.navigate('SignUp')}
+          >
+            <Text style={styles.buttonSignupText}>Cadastre-se</Text>
+          </Pressable>
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
@@ -15,7 +41,48 @@ export default function StartScreen({ navigation }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    padding: '4%'
+  },
+  contentContainer: {
+    width: '100%',
+    alignItems: 'center',
+  },
+  title: {
+    alignSelf: 'flex-start',
+    fontSize: 24,
+    marginBottom: 20,
+    marginLeft: '5%'
+  },
+  buttonContainer: {
+    width: '90%',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 40, // Additional margin to ensure it's at the bottom
+  },
+  buttonLogin: {
+    paddingVertical: 10,
+    width: '100%',
+    borderRadius: 7,
+    marginVertical: 5,
+    alignItems: 'center', // Center text horizontally
+  },
+  buttonLoginText: {
+    color: 'white',
+    fontSize: 16,
+  },
+  buttonSignup: {
+    paddingVertical: 10,
+    width: '100%',
+    alignItems: 'center', // Center text horizontally
+    marginVertical: 5,
+    borderRadius: 7,
+    borderWidth: 2,
+    borderColor: '#007BFF'
+  },
+  buttonSignupText: {
+    color: '#007BFF',
+    fontSize: 16,
   },
 });
