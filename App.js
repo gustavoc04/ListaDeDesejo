@@ -1,14 +1,17 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import RootNavigator from './navigation/RootNavigator';
+import React, {useEffect} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import AppNav from './src/navigation/AppNav';
+import { AuthProvider } from './src/contexts/AuthContext';
 
 export default function App() {
-
-  const isAuthenticated = false; 
-
+  useEffect(() => {
+    AsyncStorage.removeItem('token');
+  }, []);
+  
   return (
-    <NavigationContainer>
-      <RootNavigator isAuthenticated={isAuthenticated} />
-    </NavigationContainer>
+
+    <AuthProvider>
+      <AppNav />
+    </AuthProvider>
   );
 }

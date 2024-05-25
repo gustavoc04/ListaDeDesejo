@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const apiUrl = 'https://listadesejo.azurewebsites.net/api/'
+const apiUrl = 'https://listadesejo.azurewebsites.net/api'
 
 export const signUp = async (userName, userEmail) => {
     try {
@@ -49,6 +49,7 @@ export const getProductsByCategory = async (categoriaId, email) => {
         throw error
     }
 }
+  
 
 export const getProductsFromWishlist = async (email) => {
     try {
