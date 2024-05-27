@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, FlatList } from 'react-native';
 import ProductCard from '../components/ProductCards';
 import { getCategory, getProductsByCategory } from '../utils/http';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { WishlistProvider } from '../contexts/WishlistContext';
 const ProductsScreen = () => {
   const [products, setProducts] = useState([]);
 
@@ -30,27 +30,42 @@ const ProductsScreen = () => {
   }, []);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.header}>All Products</Text>
-      {products.length > 0 ? (
-        products.map((product) => (
-          <ProductCard key={product.produtoId} product={product} />
-        ))
-      ) : (
-        <Text>No products available</Text>
-      )}
-    </ScrollView>
+
+
+    <View style={styles.container}>
+ 
+ 
+        <FlatList
+          data={products}
+          renderItem={({ item }) => <ProductCard product={item} />}
+          keyExtractor={(item) => item.produtoId.toString()}
+          numColumns={2}
+          columnWrapperStyle={styles.row}
+          contentContainerStyle={styles.list}
+        />
+      
+      
+    </View>
+
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 16,
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
     marginVertical: 16,
+  },
+  list: {
+    justifyContent: 'space-between',
+  },
+  row: {
+    flex: 1,
+    justifyContent: 'space-between',
   },
 });
 

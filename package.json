@@ -28,6 +28,7 @@
     "expo-blur": "~12.9.2",
     "expo-linear-gradient": "~12.7.2",
     "expo-status-bar": "~1.11.1",
+    "moti": "^0.29.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.73.5",

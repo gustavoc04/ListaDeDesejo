@@ -6,36 +6,37 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; // Biblioteca de ícones FontAwesome
 import AuthStack from './AuthStack'; 
 import ProductsScreen from '../screens/productsScreen';
-import FavoritesScreen from '../screens/favoritesScreen'
+import WishlistScreen from '../screens/wishlistScreen'
 import ProfileScreen from '../screens/profileScreen'
 import CategoriesScreen from '../screens/categoriesScreen';
 import CategoryProductsScreen from '../screens/categoryProductsScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ProductDetailsScreen from '../screens/productDetailsScreen';
+import { WishlistProvider } from '../contexts/WishlistContext';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-// Função para realizar o logout
 const handleLogout = async (navigation) => {
   try {
-    await AsyncStorage.removeItem('token'); // Remova o token ou qualquer outro dado de autenticação
-    navigation.navigate('Auth'); // Navegue para a tela de autenticação
+    await AsyncStorage.removeItem('token'); 
+    navigation.navigate('Auth'); 
   } catch (error) {
     console.error('Error logging out:', error);
   }
 };
 
-// Custom Drawer content to include profile button at the top
-const CustomDrawerContent = (props) => {
-  const [selectedOption, setSelectedOption] = useState('Produtos'); // Estado para controlar a opção selecionada
 
-  // Função para atualizar a opção selecionada e navegar para a tela correspondente
+const CustomDrawerContent = (props) => {
+  const [selectedOption, setSelectedOption] = useState('Produtos'); 
+
+
   const handleDrawerItemPress = (screenName) => {
-    setSelectedOption(screenName); // Atualizar a opção selecionada
-    props.navigation.navigate(screenName); // Navegar para a tela correspondente
+    setSelectedOption(screenName);
+    props.navigation.navigate(screenName);
   };
 
-  // Função para renderizar os itens do Drawer
+
   const renderDrawerItems = () => {
     return (
       <>
@@ -43,19 +44,19 @@ const CustomDrawerContent = (props) => {
           label="Produtos"
           onPress={() => handleDrawerItemPress('Produtos')}
           icon={({ color, size }) => <FontAwesome name="shopping-cart" size={size} color={color} />}
-          focused={selectedOption === 'Produtos'} // Adiciona o estado de foco para destacar a opção selecionada
+          focused={selectedOption === 'Produtos'}
         />
         <DrawerItem
           label="Categorias"
           onPress={() => handleDrawerItemPress('Categorias')}
           icon={({ color, size }) => <FontAwesome name="list" size={size} color={color} />}
-          focused={selectedOption === 'Categorias'} // Adiciona o estado de foco para destacar a opção selecionada
+          focused={selectedOption === 'Categorias'} 
         />
         <DrawerItem
           label="Favoritos"
           onPress={() => handleDrawerItemPress('Favoritos')}
           icon={({ color, size }) => <FontAwesome name="heart" size={size} color={color} />}
-          focused={selectedOption === 'Favoritos'} // Adiciona o estado de foco para destacar a opção selecionada
+          focused={selectedOption === 'Favoritos'} 
         />
         <DrawerItem
           label="Sair"
@@ -71,7 +72,7 @@ const CustomDrawerContent = (props) => {
       <View style={styles.profileContainer}>
         <TouchableOpacity onPress={() => handleDrawerItemPress('Perfil')} style={styles.profileButton}>
           <FontAwesome name="user-circle" size={50} color="black" />
-          <Text style={styles.profileText}>Profile</Text>
+          <Text style={styles.profileText}>Perfil</Text>
         </TouchableOpacity>
       </View>
       {renderDrawerItems()} 
@@ -84,7 +85,7 @@ const AppDrawer = () => {
     <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
       <Drawer.Screen name="Produtos" component={ProductsScreen} />
       <Drawer.Screen name="Categorias" component={CategoriesScreen} />
-      <Drawer.Screen name="Favoritos" component={FavoritesScreen} />
+      <Drawer.Screen name="Favoritos" component={WishlistScreen} />
       <Drawer.Screen name="Perfil" component={ProfileScreen} />
     </Drawer.Navigator>
   );
@@ -96,14 +97,18 @@ const MainNavigator = () => {
       <Stack.Screen name="Auth" component={AuthStack} />
       <Stack.Screen name="Drawer" component={AppDrawer} />
       <Stack.Screen name="CategoryProducts" component={CategoryProductsScreen} />
+      <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
     </Stack.Navigator>
   );
 };
 
+
 export default function AppNav() {
   return (
     <NavigationContainer>
+    <WishlistProvider>
       <MainNavigator />
+    </WishlistProvider>
     </NavigationContainer>
   );
 }

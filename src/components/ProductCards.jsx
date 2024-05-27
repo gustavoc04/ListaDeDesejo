@@ -1,16 +1,41 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { MotiView } from 'moti'; // Importar MotiView da biblioteca Moti
+import FavoriteButton from './FavoriteButton';
+import { useNavigation } from '@react-navigation/native';
+import { WishlistProvider } from '../contexts/WishlistContext';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, loading }) => {
+  const navigation = useNavigation();
+  const handlePress = () => {
+    navigation.navigate('ProductDetails', { productId: product.produtoId });
+  };
+
   return (
-    <View style={styles.card}>
-      <Text style={styles.text}>{product.nome}</Text>
+    <TouchableOpacity onPress={handlePress} style={styles.card}> 
+    <MotiView
+      from={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ type: 'timing', duration: 1000 }}
+      style={{ opacity: loading ? 0 : 1 }}
+    >
       <Image
         source={{ uri: product.urlImagem }}
         style={styles.image}
       />
-      <Text>{product.description}</Text>
-    </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.text} numberOfLines={1} ellipsizeMode="tail">
+          {product.nome}
+        </Text>
+      </View>
+      <View style={styles.content}>
+        <Text style={styles.price}>R$ {product.preco}</Text>
+        <WishlistProvider>
+        <FavoriteButton productId={product.produtoId} />
+        </WishlistProvider>
+      </View>
+    </MotiView>
+    </TouchableOpacity>
   );
 };
 
@@ -25,16 +50,32 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 1 },
     shadowRadius: 4,
-  },
-  text: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    flex: 1,
   },
   image: {
     width: 100,
     height: 100,
-    marginVertical: 8,
     borderRadius: 8,
+    marginBottom: 16,
+  },
+  content: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginBottom: 8,
+  },
+  textContainer: {
+    width: '100%',
+    alignItems: 'flex-start',
+  },
+  text: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  price: {
+    fontSize: 14,
+    color: '#333',
   },
 });
 

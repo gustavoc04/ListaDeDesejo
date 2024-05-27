@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import ProductCard from '../components/ProductCards';
 import { getProductsByCategory } from '../utils/http';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { WishlistProvider } from '../contexts/WishlistContext';
 
 const CategoryProductsScreen = ({ route, navigation }) => {
   const { categoryId, categoryName } = route.params;
@@ -16,7 +17,6 @@ const CategoryProductsScreen = ({ route, navigation }) => {
         const email = await AsyncStorage.getItem('token');
         const data = await getProductsByCategory(categoryId, email);
         setProducts(data);
-        console.log(data);
       } catch (error) {
         console.error('Error fetching products:', error);
       }
@@ -26,23 +26,23 @@ const CategoryProductsScreen = ({ route, navigation }) => {
   }, [categoryId]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="black" />
-        </TouchableOpacity>
-        <Text style={styles.title}>{categoryName}</Text>
-      </View>
-      <ScrollView contentContainerStyle={styles.content}>
-        {products.length > 0 ? (
-          products.map((product) => (
-            <ProductCard key={product.produtoId} product={product} />
-          ))
-        ) : (
-          <Text>No products available</Text>
-        )}
-      </ScrollView>
-    </SafeAreaView>
+    <WishlistProvider>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+            <Ionicons name="arrow-back" size={24} color="black" />
+          </TouchableOpacity>
+          <Text style={styles.title}>{categoryName}</Text>
+        </View>
+        <FlatList
+          data={products}
+          renderItem={({ item }) => <ProductCard product={item} />}
+          keyExtractor={(item) => item.produtoId.toString()}
+          numColumns={2}
+          contentContainerStyle={styles.content}
+        />
+      </SafeAreaView>
+    </WishlistProvider>
   );
 };
 
