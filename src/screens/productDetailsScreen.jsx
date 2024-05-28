@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     paddingHorizontal: 16,
     paddingBottom: 16,
+    marginRight:'25%'
   },
   name: {
     fontSize: 24,

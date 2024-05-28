@@ -21,7 +21,7 @@ const FavoriteButton = ({ productId }) => {
     };
 
     fetchToken();
-  }, []);
+  }, [addToWishlist, removeFromWishlist]);
 
   const toggleFavorite = async () => {
     if (!token) return;

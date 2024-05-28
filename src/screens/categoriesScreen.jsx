@@ -26,7 +26,6 @@ const CategoriesScreen = ({ navigation }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.header}>Categories</Text>
       {categories.length > 0 ? (
         categories.map((category) => (
           <CategoriesCard 

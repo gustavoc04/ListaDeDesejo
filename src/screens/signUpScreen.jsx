@@ -72,7 +72,7 @@ export default function SignUpScreen({ navigation }) {
             <Text style={styles.dividerText}>ou</Text>
             <View style={styles.divider} />
           </View>
-          <Pressable style={styles.buttonLogin} onPress={() => navigation.navigate('SignUp')}>
+          <Pressable style={styles.buttonLogin} onPress={() => navigation.navigate('Login')}>
             <Text style={styles.buttonLoginText}>Fazer login</Text>
           </Pressable>
         </View>
