@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, Pressable, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, Pressable, StyleSheet, SafeAreaView, Image } from 'react-native';
+import logo from '../../assets/LOGOEMPRESA.png';
 
 export default function StartScreen({ navigation }) {
   const [loginButtonPressed, setLoginButtonPressed] = useState(false);
@@ -7,6 +8,7 @@ export default function StartScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+        <Image source={logo} style={[styles.logo, {marginBottom: '30%'}]} />
       <View style={styles.contentContainer}>
         <Text style={styles.title}>Lista de Desejos</Text>
         <View style={styles.buttonContainer}>
@@ -43,17 +45,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    padding: '4%'
+    padding: '4%',
   },
   contentContainer: {
     width: '100%',
     alignItems: 'center',
   },
+  logo: {
+    width: 200, // Adjust the width as needed
+    height:300, // Adjust the height as needed
+    marginBottom: 20, // Add some margin below the logo if needed
+  },
   title: {
     alignSelf: 'flex-start',
     fontSize: 24,
     marginBottom: 20,
-    marginLeft: '5%'
+    marginLeft: '5%',
   },
   buttonContainer: {
     width: '90%',
@@ -79,7 +86,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     borderRadius: 7,
     borderWidth: 2,
-    borderColor: '#007BFF'
+    borderColor: '#007BFF',
   },
   buttonSignupText: {
     color: '#007BFF',
