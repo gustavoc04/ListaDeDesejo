@@ -6,6 +6,7 @@ import { getCategory } from '../utils/http';
 const CategoriesScreen = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
 
+  // usa a funcao getCategory para fazer a busca de todas as categorias existentes para serem escolhidas como filtro
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -20,6 +21,7 @@ const CategoriesScreen = ({ navigation }) => {
     fetchCategories();
   }, []);
 
+  //lida com o click sobre uma categforia, recebendo seu id e nome e trocando a rota para 'CategoryProducts'
   const handleCategoryPress = (categoryId, categoryName) => {
     navigation.navigate('CategoryProducts', { categoryId, categoryName });
   };
@@ -35,7 +37,7 @@ const CategoriesScreen = ({ navigation }) => {
           />
         ))
       ) : (
-        <Text>No categories available</Text>
+        <Text>Nenhuma categoria disponivel</Text>
       )}
     </ScrollView>
   );

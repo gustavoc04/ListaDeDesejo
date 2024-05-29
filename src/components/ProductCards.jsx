@@ -7,13 +7,15 @@ import { WishlistProvider } from '../contexts/WishlistContext';
 
 const ProductCard = ({ product, loading }) => {
   const navigation = useNavigation();
+
+  // Ao ser acionado troca a rota para ProductDetails, que é uma stacknavigation
   const handlePress = () => {
     navigation.navigate('ProductDetails', { productId: product.produtoId });
   };
 
   return (
     <TouchableOpacity onPress={handlePress} style={styles.card}> 
-    <MotiView
+    <MotiView //animação de loadign do card
       from={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ type: 'timing', duration: 1000 }}

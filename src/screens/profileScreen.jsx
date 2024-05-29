@@ -6,6 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 export default function ProfileScreen({ navigation }) {
   const [userInfo, setUserInfo] = useState(null);
 
+  //faz a busca das informações do usuario (email e nome) que ficam salvos no 'token' no AsyncStorage assim que é realizado o login
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {

@@ -9,6 +9,7 @@ const FavoriteButton = ({ productId }) => {
   const [token, setToken] = useState(null);
   const isFavorite = wishlist.includes(productId);
 
+  //busca o token no AsyncStorage para acessar o email dentro dele para realizar a requisição nas funcões removeFromWishlist e addToWishlist
   useEffect(() => {
     const fetchToken = async () => {
       try {
@@ -23,6 +24,8 @@ const FavoriteButton = ({ productId }) => {
     fetchToken();
   }, [addToWishlist, removeFromWishlist]);
 
+  
+  // verifica se o item é favorito ou não, se for ele remove ao clicar no botao, senao ele adiciona.
   const toggleFavorite = async () => {
     if (!token) return;
 
@@ -36,6 +39,8 @@ const FavoriteButton = ({ productId }) => {
   };
 
   return (
+    // a troca da cor do botao é realizado com um ternario que verifica a variavel isFavorite e caso seja favorito o coração fica vermelho e preenchido,
+    //senao ele sera cinza e sem interior
     <WishlistProvider>
       <TouchableOpacity onPress={toggleFavorite} style={{}}>
         <FontAwesome name={isFavorite ? 'heart' : 'heart-o'} size={20} color={isFavorite ? 'red' : 'grey'} />

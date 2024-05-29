@@ -1,24 +1,51 @@
-// SignUpScreen.js
-import React, { useState } from 'react';
-import { Text, Pressable, TextInput, StyleSheet, SafeAreaView, View, ActivityIndicator, Alert } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { Text, Pressable, TextInput, StyleSheet, SafeAreaView, View, ActivityIndicator, Keyboard, Animated, Alert } from 'react-native';
 import { signUp } from '../utils/http';
+import logo from '../../assets/LOGOEMPRESA.png';
 
 export default function SignUpScreen({ navigation }) {
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const logoSize = useRef(new Animated.Value(1)).current;
 
+  // useEffect apenas para esconder a logo quando o teclado estiver ativo e exibir quando nao estiver
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      Animated.timing(logoSize, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    });
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      Animated.timing(logoSize, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    });
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, [logoSize]);
+
+  // handleSignUp chama a função que enviar os dados coletados nos inputs para a função no arquivo http.jsx 
+  // que faz a comunicação com a api quando o botão de enviar cadastro for clicado
   const handleSignUp = async () => {
     setLoading(true);
     setError('');
     try {
-      const response = await signUp(userName, userEmail);
+      const response = await signUp(userName, userEmail); // -> função signup importada do http.jsx passando nome e email como atributo
+      console.log('Response do cadastro:', response); 
 
       if (response) {
-        console.log(response);
         Alert.alert(
           'Cadastro realizado com sucesso!',
+          'Seu cadastro foi realizado com sucesso!',
           [
             {
               text: 'OK',
@@ -27,21 +54,18 @@ export default function SignUpScreen({ navigation }) {
           ],
           { cancelable: false }
         );
-      } else {
-        setLoading(false);
-        setError('Erro no cadastro.');
       }
-      
     } catch (error) {
+      console.log('Error durante o cadastro:', error);
       setError('Erro no cadastro.');
     } finally {
       setLoading(false);
-
     }
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <Animated.Image source={logo} style={[styles.logo, { transform: [{ scale: logoSize }] }]} />
       <View style={styles.contentContainer}>
         <Text style={styles.title}>Cadastro</Text>
         <TextInput
@@ -76,7 +100,6 @@ export default function SignUpScreen({ navigation }) {
             <Text style={styles.buttonLoginText}>Fazer login</Text>
           </Pressable>
         </View>
-
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
       </View>
     </SafeAreaView>
@@ -93,6 +116,11 @@ const styles = StyleSheet.create({
   contentContainer: {
     width: '100%',
     alignItems: 'center',
+  },
+  logo: {
+    width: 150,
+    height: 250,
+    marginBottom: 20,
   },
   dividerContainer: {
     flexDirection: 'row',

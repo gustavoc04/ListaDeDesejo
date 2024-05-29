@@ -6,6 +6,7 @@ import SignUpScreen from '../screens/signUpScreen';
 
 const Stack = createStackNavigator();
 
+//esse stack de navegação é responsavel ate que o usuario seja autenticado, apos isso ele é alterado para a navegação principal do app
 export default function AuthStack() {
   return (
     <Stack.Navigator initialRouteName="Start" screenOptions={{ headerShown: false }}>

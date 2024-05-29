@@ -3,7 +3,7 @@ import { View, Text, SafeAreaView, TouchableOpacity, StyleSheet, Image } from 'r
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getCategory, getProductsByCategory } from '../utils/http';
 import FavoriteButton from '../components/FavoriteButton';
-import { WishlistProvider } from '../contexts/WishlistContext'; // Importar o provedor de contexto WishlistProvider
+import { WishlistProvider } from '../contexts/WishlistContext';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 
@@ -12,6 +12,12 @@ const ProductScreen = ({ route }) => {
   const [product, setProduct] = useState(null);
   const navigation = useNavigation();
 
+  // o fetchProducts faz a busca de todos os produtos para serem exibidos na tela de produtos.
+  // Primeiro é chamado a função getCategory para salvar todas as categorias em um array de categorias
+  // Depois é feito um for, chamando a função getProdutcsByCategory para cada categoria do vetor categorias
+  // e salvando todos os produtos em um array de produtos para serem exibidos na tela e é realizada a filtragem
+  // para exibir apenas o produto com o id selecionado por meio dos metodo find, passando o objeto salvo em selectedProduct
+  // para o state product e exibindo seus atributos (nome, imagem e preco) na tela 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -35,6 +41,7 @@ const ProductScreen = ({ route }) => {
     fetchProducts();
   }, [productId]);
 
+  // é chamado o componente FavoriteButton que recebe o WishlistProvider e lida com a funcao de adicionar e remover item da lista de favoritos
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {product ? (

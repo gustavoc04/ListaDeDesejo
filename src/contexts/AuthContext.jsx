@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// o authcontext por guardar o token em um context
 export const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {

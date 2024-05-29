@@ -17,6 +17,7 @@ import { WishlistProvider } from '../contexts/WishlistContext';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
+// quando o botao logout for clicado o token é excluido e o usuario é redirecionado para a navegação de autenticaçao novamente
 const handleLogout = async (navigation) => {
   try {
     await AsyncStorage.removeItem('token'); 
@@ -26,17 +27,18 @@ const handleLogout = async (navigation) => {
   }
 };
 
-
+// o drawernavigation inicia na tela produtos
 const CustomDrawerContent = (props) => {
   const [selectedOption, setSelectedOption] = useState('Produtos'); 
 
 
+  // salva a tela selecionada para mostrar um ativador sobre a opçao e realiza a troca de tela
   const handleDrawerItemPress = (screenName) => {
     setSelectedOption(screenName);
     props.navigation.navigate(screenName);
   };
 
-
+  // todos os itens do drawer com suas logos e nomes
   const renderDrawerItems = () => {
     return (
       <>
@@ -67,6 +69,7 @@ const CustomDrawerContent = (props) => {
     );
   };
 
+  // exibe uma logo que é o perfil do usuario e quando clicado navega para a rota 'Perfil'
   return (
     <DrawerContentScrollView {...props}>
       <View style={styles.profileContainer}>
@@ -80,6 +83,7 @@ const CustomDrawerContent = (props) => {
   );
 };
 
+//define as rotas do drawernavigation
 const AppDrawer = () => {
   return (
     <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
@@ -91,6 +95,8 @@ const AppDrawer = () => {
   );
 };
 
+
+//Navega em stack entre a autenticação, drawernavigation, tela de produtos da categoria e tela de detalhes do produto
 const MainNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>

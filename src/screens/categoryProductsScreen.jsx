@@ -10,7 +10,8 @@ import { WishlistProvider } from '../contexts/WishlistContext';
 const CategoryProductsScreen = ({ route, navigation }) => {
   const { categoryId, categoryName } = route.params;
   const [products, setProducts] = useState([]);
-
+  //busca os produtos da categoria com o id recebido por params na rota de navegação com a função getProductsByCategory,
+  //passando também para ela o email obrigatoria pela api, que é armazenado no token no asyncstorage assim que realizado o login
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -23,7 +24,7 @@ const CategoryProductsScreen = ({ route, navigation }) => {
     };
 
     fetchProducts();
-  }, [categoryId]);
+  }, [categoryId]); // é chamado sempre que atualiza a variavel categoryId passada por params
 
   return (
     <WishlistProvider>

@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, Pressable, StyleSheet, SafeAreaView, Image } from 'react-native';
 import logo from '../../assets/LOGOEMPRESA.png';
 
 export default function StartScreen({ navigation }) {
-  const [loginButtonPressed, setLoginButtonPressed] = useState(false);
-  const [signupButtonPressed, setSignupButtonPressed] = useState(false);
-
   return (
     <SafeAreaView style={styles.safeArea}>
-        <Image source={logo} style={[styles.logo, {marginBottom: '30%'}]} />
+      <Image source={logo} style={[styles.logo, { marginBottom: '30%' }]} />
       <View style={styles.contentContainer}>
         <Text style={styles.title}>Lista de Desejos</Text>
         <View style={styles.buttonContainer}>
@@ -17,9 +14,7 @@ export default function StartScreen({ navigation }) {
               styles.buttonLogin,
               { backgroundColor: pressed ? '#0056b3' : '#007BFF' },
             ]}
-            onPressIn={() => setLoginButtonPressed(true)}
-            onPressOut={() => setLoginButtonPressed(false)}
-            onPress={() => navigation.navigate('Login')}
+            onPress={() => navigation.navigate('Login')} //altera a navegação para a tela de login clicando no botao login
           >
             <Text style={styles.buttonLoginText}>Login</Text>
           </Pressable>
@@ -28,9 +23,7 @@ export default function StartScreen({ navigation }) {
               styles.buttonSignup,
               { backgroundColor: pressed ? '#e6f0ff' : 'transparent' },
             ]}
-            onPressIn={() => setSignupButtonPressed(true)}
-            onPressOut={() => setSignupButtonPressed(false)}
-            onPress={() => navigation.navigate('SignUp')}
+            onPress={() => navigation.navigate('SignUp')} //altera a navegação para a tela de cadastro clicando no botao cadastro
           >
             <Text style={styles.buttonSignupText}>Cadastre-se</Text>
           </Pressable>
@@ -52,9 +45,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 200, // Adjust the width as needed
-    height:300, // Adjust the height as needed
-    marginBottom: 20, // Add some margin below the logo if needed
+    width: 200,
+    height: 300,
+    marginBottom: 20,
   },
   title: {
     alignSelf: 'flex-start',
@@ -66,14 +59,14 @@ const styles = StyleSheet.create({
     width: '90%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 40, // Additional margin to ensure it's at the bottom
+    marginBottom: 40,
   },
   buttonLogin: {
     paddingVertical: 10,
     width: '100%',
     borderRadius: 7,
     marginVertical: 5,
-    alignItems: 'center', // Center text horizontally
+    alignItems: 'center',
   },
   buttonLoginText: {
     color: 'white',
@@ -82,7 +75,7 @@ const styles = StyleSheet.create({
   buttonSignup: {
     paddingVertical: 10,
     width: '100%',
-    alignItems: 'center', // Center text horizontally
+    alignItems: 'center',
     marginVertical: 5,
     borderRadius: 7,
     borderWidth: 2,
